@@ -12,6 +12,10 @@ function Service() {
   const [fileContent, setFileContent] = useState(null);
   const [fileName, setFileName] = useState('');
   const [commit, setCommit]= useState('');
+  const [resultMsg, setResultMsg]= useState('');
+  const [previousCommit, setPreviousCommit]= useState('');
+  const [currentCommit, setCurrentCommit]= useState('');
+  const [time , setTime]= useState('');
   
   
   const getFileContent=(fileContent)=>{
@@ -28,6 +32,30 @@ function Service() {
   const getUpdatedCommit=(commit)=>{
     setCommit(commit);
   }
+
+  const timestampToDate=(timestamp)=>{
+    const timestampNumber = timestamp.toNumber();
+    // Convert Unix timestamp to milliseconds
+    const milliseconds = timestampNumber * 1000;
+  
+    // Create a new Date object
+    const date = new Date(milliseconds);
+  
+    // Get individual components of the date
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2); // Months are zero-based
+    const day = ('0' + date.getDate()).slice(-2);
+    const hours = ('0' + date.getHours()).slice(-2);
+    const minutes = ('0' + date.getMinutes()).slice(-2);
+    const seconds = ('0' + date.getSeconds()).slice(-2);
+  
+    // Construct a formatted date string
+    const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    console.log("the time is :", formattedDate);
+  
+    setTime(formattedDate);
+  }
+
   async function requestAccount(){
     //check the existence of metamask
     if(window.ethereum){
@@ -248,7 +276,12 @@ function Service() {
       const verifyIntegrity = await contract.checkDataIntegrity(fileName, fileContent);
       console.log("the content to verify integrity is :",fileContent, "and url is :", fileName );
       //await verifyIntegrity.wait()
-      console.log("Data Integrity Result:", verifyIntegrity);
+      setResultMsg(verifyIntegrity[0]);
+      setPreviousCommit(verifyIntegrity[1].previous_commit) ;  
+      setCurrentCommit(verifyIntegrity[1].current_commit);
+      let timeStamp = verifyIntegrity[1].timestamp;
+      timestampToDate(timeStamp);
+      console.log("Data Integrity Result:", verifyIntegrity, "  the MSG : ", resultMsg, "the commits :", previousCommit ,"==>", currentCommit, "   timestamp is   : ", time);
 
     }} catch(err){
       console.error("the connection to contract error:",err);
@@ -260,11 +293,11 @@ function Service() {
     <div className="SERVICE">
       <header className="Service-header">
         <div>
-        <button onClick={requestAccount}>Connect</button>
-        <h3>wallet address: {walletAddress}</h3>
+        <button className='connect_Button' onClick={requestAccount}>Connect</button>
+        <h3 className='t1'>wallet address : {walletAddress}</h3>
 
-        <button onClick={updateFileHash}>update file Hash </button>
-        <button onClick={verifyIntegrity}> verifyIntegrity</button>
+        <button className='Button' onClick={updateFileHash}>update file Hash </button>
+        <button className='Button' onClick={verifyIntegrity}> verifyIntegrity</button>
         </div>
 
         <FileUpload getContent= {getFileContent} getName= {getFileName} getCommit={getUpdatedCommit} />

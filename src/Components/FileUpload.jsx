@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
+import '../styles/fileUpload.css';
 
 const FileUpload = ({getContent, getName, getCommit}) => {
   
@@ -44,11 +45,11 @@ const FileUpload = ({getContent, getName, getCommit}) => {
         {isDragActive ? (
           <p>Drop the file here...</p>
         ) : (
-          <p>Drag 'n' drop a file here, or click to select a file</p>
+          <p>Drag & drop a file here, or click to select a file</p>
         )}
       </div>
       <div>
-        <input  type='text' value={commit} onChange={handleCommit}  placeholder='write your commit..' >
+        <input className='input'  type='text' value={commit} onChange={handleCommit}  placeholder='write your commit..' >
         </input>
       </div>
 

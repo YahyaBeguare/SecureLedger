@@ -24,6 +24,24 @@
     font-size: calc(10px + 2vmin);
     color: white;
   }
+
+  .Button {
+    background-color: rgb(33, 150, 107);
+    padding: 10px;
+    margin: 15px;
+    font-size: large;
+  }
+
+  .connect_Button{
+    background-color: rgb(49, 29, 153);
+    padding: 10px;
+    margin: 30px ;
+    font-size: large;
+  }
+
+  .t1{
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  }
   /* Example CSS */
 
 body {
@@ -32,7 +50,14 @@ body {
     font-family: 'Arial', sans-serif;
   }
   
-  header, footer {
+  header{
+    color: white;
+    text-align: center;
+    padding: 1em;
+    margin-bottom: 350px;
+  }
+
+   footer {
     color: white;
     text-align: center;
     padding: 1em;
