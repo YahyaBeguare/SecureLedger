@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: MIT 
 
 pragma solidity ^0.8.19 ;
-contract VerifyDataIntegrity {
+contract SecureLedger {
 
     address admin ;
 
@@ -18,7 +18,7 @@ contract VerifyDataIntegrity {
     } 
 
     string SCname= "Data Integrity";
-    Details public details ;
+    Details private details ;
     
 
     function name() public view returns( string memory){
@@ -35,7 +35,7 @@ contract VerifyDataIntegrity {
 
     function updateFileHash(string memory _url, string memory _content, string memory _commit) public {
 
-        require(msg.sender == admin, "you don't have access to update the files hashes" );
+        require(msg.sender == admin, "your address doesen't have access to update the Data" );
         bytes32 newHash= hash(_content);
         uint256 _timestamp= block.timestamp ;
 
@@ -63,10 +63,11 @@ contract VerifyDataIntegrity {
                 timestamp:0
                 });
         
+    
        
 
          if (FileHash[_url].Hash == bytes32(0) ) {
-             message= "This URL is invalid, check the uploaded file and try again" ;
+             message= "This URL is invalid,please check the uploaded file and try again" ;
             return( message, emptyDetails) ;
         }
         
@@ -75,14 +76,14 @@ contract VerifyDataIntegrity {
         
         
         if( currentHash == newHash){
-            message= "content isn't modified  " ;
+            message= "this Data hasn't been modified from last update  " ;
             if(msg.sender== admin){
                 return( message,FileHash[_url]);
             }else{
             return( message,emptyDetails) ;
                 }
         } else {
-            message= "Content has been modified !!  ";
+            message= "This Data has been modified, it's different from last version stored !!  ";
             if(msg.sender== admin){
                 return( message,FileHash[_url]);
             }else{
