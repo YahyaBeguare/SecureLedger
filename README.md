@@ -1,9 +1,14 @@
+# Deploying the smart contract to test all functionalities of this project 
+first copy the smart contract from SecureLedger.sol in Smart_contract folder and deploy it on Remix , then copy the smart contract Adress and paste it in the line 103 of the component Service.jsx which contains the smart contract address .
 
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
+navigate to the root directory 
+
+### `cd data-integrity-project`
 
 In the project directory, you can run:
 
