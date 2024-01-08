@@ -30,13 +30,24 @@
     padding: 10px;
     margin: 15px;
     font-size: large;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px #0b595b ;
+    
+    
   }
+  .Wallet{
+    display: flex;
+    margin-bottom: 100px;
+    margin-left: 0px;
+    left: 0%; 
 
+  }
   .connect_Button{
-    background-color: rgb(49, 29, 153);
+    background-color: rgb(13, 98, 115);
     padding: 10px;
-    margin: 30px ;
+    margin-right: 10px ;
     font-size: large;
+    border-radius: 10px;
   }
 
   .t1{
@@ -63,8 +74,16 @@ body {
     padding: 1em;
   }
   
-  .container {
+  .Container {
+    min-height: 100vh;
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(5px + 2vmin);
+    padding-top: 150px;
+    
+   
   }
   
   aside, main {
@@ -72,3 +91,83 @@ body {
     padding: 1em;
   }
   
+  .mainContainer{
+   
+    background-color:beige;
+    padding: 25px;
+    border-style:dashed;
+    display:grid;
+  }
+  .Result{
+    background-color: rgb(53, 73, 172);
+    border-style: solid;
+    border-color: rgb(10, 25, 106);
+    padding: 40px;
+    padding-top: 2px;
+    margin: 10px;
+  }
+  .Commits{
+    display:flex ;
+    padding: 10px;
+    
+
+  }
+  
+
+
+  .Pc{
+    background-color: rgb(140, 59, 187);
+    border-style:outset;
+    border-radius: 10px;
+    border-color: rgb(133, 4, 147);
+    padding-top: 2px;
+    width: 47%;
+    
+  }
+
+  h3{
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ;
+    align-items: center;
+  }
+
+  p{
+    padding-top: 20px;
+    font-size: large;
+  }
+  .Cc{
+    
+    background-color: rgb(219, 110, 20);
+    border-style:outset;
+    border-radius: 10px;
+    border-color: rgb(175, 79, 0);
+    padding: 40px;
+    padding-top: 2px;
+    flex:1 ;
+    width: 47%;
+    margin-left: 6%;
+    animation-direction:reverse;
+    animation-duration: 2s;
+    animation-name:commit2;
+    
+  }
+  .LTM{
+    background-color: rgb(20, 209, 219);
+    border-style:outset;
+    border-radius: 10px;
+    border-color: rgb(15, 95, 182);
+    padding: 40px;
+    padding-top: 2px;
+  }
+
+  .firstContainer{
+    border-style:ridge;
+    padding: 100px;
+    border-radius: 15px;
+    
+    
+  }
+  /* The animation code */
+@keyframes commit2 {
+  from {margin-bottom: -20px;}
+  to{}
+}

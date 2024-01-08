@@ -1,19 +1,24 @@
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
+import { useState, useEffect } from 'react';
 
-function CardCmp() {
+function CardCmp(informations) {
+ 
+let currentCommit= informations.previous_commit ;
+console.log("the infos received:", informations);
+console.log("the current commit is : ", currentCommit);
+
+ 
+
+ 
+/*
+  useEffect(()=>{
+  timestampToDate(timestamp);
+  },[timestamp]
+  ); */
   return (
-    <Card style={{ width: '18rem' }}>
+    <div>
       
-      <Card.Body>
-        <Card.Title>File Name </Card.Title>
-        <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
-        </Card.Text>
-        <Button variant="primary">Go somewhere</Button>
-      </Card.Body>
-    </Card>
+      
+    </div>
   );
 }
 

@@ -1,0 +1,40 @@
+
+.Hero{
+    background-image: url('../Images/About-image.jpg') ;
+    background-color: rgb(226, 229, 229);
+    height: 300px;
+}
+
+.Link{
+    padding-top: 100px;
+    padding-left: 20px;
+    
+    
+}
+
+.Item{
+    text-decoration: aliceblue;
+    color: bisque;
+}
+
+.Content{
+    padding-left: 5% ;
+    padding-right: 2%;
+    padding-bottom: 10%;
+}
+
+h1{
+    position: center ;
+    padding-left: 50% ;
+    padding-top: 25px;
+}
+
+h2{
+    padding-left: 5% ;
+    padding-top: 15px;
+    padding-bottom: 10px ;
+}
+
+li{
+    font-size:larger;
+}

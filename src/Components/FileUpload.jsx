@@ -49,23 +49,25 @@ const FileUpload = ({getContent, getName, getCommit}) => {
         )}
       </div>
       <div>
-        <input className='input'  type='text' value={commit} onChange={handleCommit}  placeholder='write your commit..' >
+        <input className='input'  type='text' value={commit} onChange={handleCommit}  placeholder='write your commit here..' >
         </input>
       </div>
 
-      {fileContent && (
-        <div>
-          <h3>File Content:</h3>
-          <pre>{fileContent}</pre>
-        </div>
-      )}
-
       {fileName && (
-        <div>
-          <h3>File Name:</h3>
+        <div className='Name'>
+          <h4>File Name:</h4>
           <p>{fileName}</p>
         </div>
       )}
+
+      {fileContent && (
+        <div>
+          <h4>File Content:</h4>
+          <pre color='red'>{fileContent}</pre>
+        </div>
+      )}
+
+      
     </div>
   );
 };

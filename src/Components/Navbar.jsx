@@ -41,11 +41,7 @@ function Navbar() {
         {/* desktop */}
 
         <div className="navbar">
-          <div className="navbar__img">
-            <Link to="/" onClick={() => window.scrollTo(0, 0)}>
-              <img src={Logo} alt="logo-img" />
-            </Link>
-          </div>
+          
           <ul className="navbar__links">
             <li>
               <Link className="home-link" to="/">
@@ -78,3 +74,13 @@ function Navbar() {
 }
 
 export default Navbar;
+
+
+/*
+<div className="navbar__img">
+            <Link to="/" onClick={() => window.scrollTo(0, 0)}>
+              <img src={Logo} alt="logo-img" />
+            </Link>
+          </div>
+
+*/

@@ -95,9 +95,13 @@ body {
   text-decoration: none;
   cursor: pointer;
   transition: all 0.3s;
+  background-color: #cdeef7;
+  padding: 3px;
+  font-size:large;
 }
 .navbar__links a:hover {
-  color: #ff4d30;
+  color: #29a5c7;
+  border-radius: 10px;
 }
 @media (max-width: 1000px) {
   .navbar__links {

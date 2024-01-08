@@ -1,0 +1,22 @@
+.Home{
+   
+   padding-left: 20%;
+   padding-right: 20%;
+    
+    
+}
+
+.Img{
+    background-image: url('../Images/Home-image.jpg') ;
+    background-repeat:no-repeat ;
+    padding-top: 30%;
+    background-size: cover;
+}
+button{
+    padding: 5px;
+    background-color:rgb(47, 200, 85);
+    margin-bottom: 10%;
+    margin: 10px;
+    border-radius: 10px;
+    font-size:18px;
+}
