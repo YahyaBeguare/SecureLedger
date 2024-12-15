@@ -286,6 +286,10 @@ function Service() {
    modificationTime : time }
   console.log("informations are :", infos);
 
+  const handleContent=()=>{
+    setContent(1);
+  }
+
     
     return (
     <div className="SERVICE">
@@ -311,6 +315,7 @@ function Service() {
       <aside>
         <div>
               <div className='mainContainer'>
+                <div><button onClick={handleContent()}> Back</button></div>
                   <div className='Result'>
                     <h3>State</h3>
                     <p>
