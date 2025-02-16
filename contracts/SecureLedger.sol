@@ -13,8 +13,8 @@ contract SecureLedger {
         
     }
 
-    constructor() {
-      admin = msg.sender ;  
+    constructor(address _owner) {
+      admin = _owner ;  
     } 
 
     string SCname= "Data Integrity";

@@ -1,10 +1,14 @@
 import '../styles/service.css';
 import { useState} from 'react';
-import FileUpload from './FileUpload';
+import FileUpload from './FileUpload.jsx';
+const {ethers}= require("ethers");
+const contractArtifact= require("../artifacts/contracts/SecureLedger.sol/SecureLedger.json");
 
+
+// const ABI = contractArtifact.abi;
 //import CardBody from 'react-bootstrap/esm/CardBody';
 //import {ethers, providers} from 'ethers'; 
-const {ethers}= require("ethers");
+
 
 function Service() {
 
@@ -63,7 +67,7 @@ function Service() {
 
 
   const getFileName=(fileName)=>{
-
+    console.log("the file name is :", fileName);
     setFileName(fileName);
   }
   const getUpdatedCommit=(commit)=>{
@@ -230,6 +234,9 @@ function Service() {
         }
       ];
 
+
+
+  // const ABI= 
       const contract= new ethers.Contract(contractAddress,ABI,signer);
       return contract ;
      

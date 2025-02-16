@@ -19,7 +19,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploycontract": "npx hardhat run scripts/deploy.js",
+    "deploycontract:sepolia": "npx hardhat run scripts/deploy.js --network sepolia",
+    "deploycontract:ganache": "npx hardhat run scripts/deploy.js --network ganache"
   },
   "eslintConfig": {
     "extends": [
@@ -43,7 +46,6 @@
     "@nomicfoundation/hardhat-toolbox": "^4.0.0",
     "@nomiclabs/hardhat-etherscan": "^3.1.8",
     "dotenv": "^16.4.3",
-    "ethers": "^5.4.0",
     "hardhat": "^2.19.5"
   }
 }

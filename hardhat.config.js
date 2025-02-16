@@ -4,6 +4,7 @@ require('dotenv').config();
 const INFURA_RPC_URL = process.env.INFURA_RPC_URL ;
 const SEPOLIA_PRIVATE_KEY= process.env.SEPOLIA_PRIVATE_KEY;
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY ;
+const GANACHE_ACCOUNT= process.env.GANACHE_PRIVATE_KEY ;
 //const COINMARKETCAP_KEY= process.env.COINMARKETCAP_KEY ;
 
 /** @type import('hardhat/config').HardhatUserConfig */
@@ -16,9 +17,10 @@ module.exports = {
       accounts: [SEPOLIA_PRIVATE_KEY],
       chainId: 11155111 ,
     },
-    localhost: {
-      url: "http://127.0.0.1:8545/",
-      chainId: 31337,
+    ganache:{
+      url: "http://127.0.0.1:7545",
+      chainId: 1337,
+      accounts: [GANACHE_ACCOUNT]
     }
 
   },
@@ -28,6 +30,6 @@ module.exports = {
     }
   },
   paths: {
-    artifacts: './src/artifacts',
+    artifacts: './artifacts',
   }
 };
