@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@openzeppelin/contracts": "^5.2.0",
+    "@openzeppelin/contracts-upgradeable": "^5.2.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -25,7 +27,9 @@
     "deployContract": "npx hardhat run scripts/deploy.js",
     "deployContract:hardhat": "npx hardhat run scripts/deploy.js --network hardhat",
     "deployContract:sepolia": "npx hardhat run scripts/deploy.js --network sepolia",
-    "deployContract:ganache": "npx hardhat run scripts/deploy.js --network ganache"
+    "deployContract:ganache": "npx hardhat run scripts/deploy.js --network ganache",
+    "interact:hardhat": "npx hardhat run scripts/interact.js --network hardhat"
+
   },
   "eslintConfig": {
     "extends": [

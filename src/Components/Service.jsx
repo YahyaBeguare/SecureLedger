@@ -12,7 +12,7 @@ const VIEWS = {
   LANDING: 'LANDING',
 };
 
-const CONTRACT_ADDRESS = contractDetails["contractDetails"]["contractAddress"];   
+const CONTRACT_ADDRESS = contractDetails["contractDetails"]["proxyAddress"];   
 
 function Service() {
   const [walletAddress, setWalletAddress] = useState('');
@@ -102,6 +102,7 @@ function Service() {
   async function verifyIntegrity() {
     setIsVerifying(true);
     try {
+      console.log("Verifying file:", fileName, "with content:", fileContent);
       const result = await contract.checkDataIntegrity(fileName, fileContent);
       setResultMsg(result[0]);
       setPreviousCommit(result[1].previous_commit);

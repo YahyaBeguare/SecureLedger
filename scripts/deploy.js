@@ -3,28 +3,50 @@ const fs= require("fs");
 
 
 const addressFile= require("./../src/address.json");
-async function main() {
-  console.log("Deploying contract...");
-  const [deployer]= await hre.ethers.getSigners();
-  console.log("Deploying contract with the account :", deployer.address);
 
-  const SecureLedger = await hre.ethers.deployContract("SecureLedger", [deployer.address]);
+  
 
-  await SecureLedger.waitForDeployment();
-  console.log(" Simple Contract address : ", await SecureLedger.target);
-  addressFile["contractDetails"]= {contractAddress: SecureLedger.target, contractOwner: deployer.address } ;
+
+async function deploy() {
+  // Get the deployer's signer
+  const [deployer] = await hre.ethers.getSigners();
+  console.log("Deploying contracts with account:", deployer.address);
+
+  // Deploy the implementation contract (SecureLedger)
+  const SecureLedger = await hre.ethers.deployContract("SecureLedger");
+  await SecureLedger.waitForDeployment;
+  console.log("SecureLedger implementation deployed to:", SecureLedger.target);
+
+  // Prepare the initialization data.
+  // Our initialize function takes an address as initialOwner.
+  const initData = SecureLedger.interface.encodeFunctionData("initialize", [deployer.address]);
+
+  // Deploy the proxy contract (SecureLedgerProxy) with the implementation address and init data.
+  const SecureLedgerProxy = await  hre.ethers.deployContract("SecureLedgerProxy",[SecureLedger.target, initData]);
+  await SecureLedgerProxy.waitForDeployment();
+  console.log("SecureLedger proxy deployed to:", SecureLedgerProxy.target);
+
+//  Set the the contract addresses to address.json 
+  addressFile["contractDetails"]= {implementationAddress: SecureLedger.target, proxyAddress: SecureLedgerProxy.target, contractOwner: deployer.address } ;
   try{
     await fs.writeFileSync("src/address.json", JSON.stringify(addressFile, null, 2));
   } catch(err){
   console.error("error updating address file:", err);
 }
+
+  // (Optional) Attach the implementation's ABI to the proxy address so you can interact with it
+  const proxyContract = await hre.ethers.getContractAt("SecureLedger",SecureLedgerProxy.target);
+  const name = await proxyContract.name();
+  console.log("Contract name:", name);
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
-main()
-.then(() => process.exit(0))
-.catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+deploy()
+  .then(() => process.exit(0))
+  .catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
+
+
+
+

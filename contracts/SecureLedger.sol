@@ -1,9 +1,14 @@
 //SPDX-License-Identifier: MIT 
+pragma solidity ^0.8.21 ;
 
-pragma solidity ^0.8.19 ;
-contract SecureLedger {
+import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol"; 
 
-    address admin ;
+
+contract SecureLedger is Initializable, OwnableUpgradeable, UUPSUpgradeable {
+
+    address private admin ;
 
     struct Details{
         bytes32 Hash ;
@@ -13,13 +18,25 @@ contract SecureLedger {
         
     }
 
-    constructor(address _owner) {
-      admin = _owner ;  
-    } 
-
     string SCname= "Data Integrity";
     Details private details ;
     
+
+     function initialize(address initialOwner) initializer public {
+        __Ownable_init(initialOwner);
+        __UUPSUpgradeable_init();
+        admin = initialOwner ;  
+
+    }
+
+    function _authorizeUpgrade(address newImplementation)
+        internal
+        onlyOwner
+        override
+    {}
+
+
+
 
     function name() public view returns( string memory){
         return SCname ; 
@@ -92,7 +109,9 @@ contract SecureLedger {
             }
     }
 
-
+    function upgrade( address newImplementation) public onlyOwner {
+        upgradeToAndCall(newImplementation, "");
+    }
 
     
 }
