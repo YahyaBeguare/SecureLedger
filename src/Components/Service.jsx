@@ -1,371 +1,223 @@
 import '../styles/service.css';
-import { useState} from 'react';
+import { useState, useEffect } from 'react';
+import { format } from 'date-fns';
+import { ethers } from 'ethers'; // Ethers v6
 import FileUpload from './FileUpload.jsx';
-const {ethers}= require("ethers");
-const contractArtifact= require("../artifacts/contracts/SecureLedger.sol/SecureLedger.json");
+import contractArtifact from "../artifacts/contracts/SecureLedger.sol/SecureLedger.json";
+import contractDetails from "./../address.json";
 
+const VIEWS = {
+  DEFAULT: 'DEFAULT',
+  RESULT: 'RESULT',
+  LANDING: 'LANDING',
+};
 
-// const ABI = contractArtifact.abi;
-//import CardBody from 'react-bootstrap/esm/CardBody';
-//import {ethers, providers} from 'ethers'; 
-
+const CONTRACT_ADDRESS = contractDetails["contractDetails"]["contractAddress"];   
 
 function Service() {
-
-  const [walletAddress, setWalletAddress]= useState(null);
-  const [accounts, setAccounts]= useState('');
+  const [walletAddress, setWalletAddress] = useState('');
   const [fileContent, setFileContent] = useState(null);
   const [fileName, setFileName] = useState('');
-  const [commit, setCommit]= useState('');
-  const [resultMsg, setResultMsg]= useState('the result');
-  const [previousCommit, setPreviousCommit]= useState('');
-  const [currentCommit, setCurrentCommit]= useState('');
-  const [time , setTime]= useState('');
-  const [content,setContent]=useState(1);
-  
-  
- 
-  
-  
-
-
-
-  const timestampToDate = (timestamp) => {
-    // Check if timestamp is defined before using toNumber()
-    const timestampNumber = timestamp //!== null ? timestamp.toNumber() : null;
- 
-    //if (timestampNumber !== null) {
-     // Convert Unix timestamp to milliseconds
-     const milliseconds = timestampNumber * 1000;
-   
-     // Create a new Date object
-     const date = new Date(milliseconds);
-   
-     // Get individual components of the date
-     const year = date.getFullYear();
-     const month = ('0' + (date.getMonth() + 1)).slice(-2); // Months are zero-based
-     const day = ('0' + date.getDate()).slice(-2);
-     const hours = ('0' + date.getHours()).slice(-2);
-     const minutes = ('0' + date.getMinutes()).slice(-2);
-     const seconds = ('0' + date.getSeconds()).slice(-2);
-   
-     // Construct a formatted date string
-     const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-     console.log("the time is :", formattedDate);
-   
-     setTime(formattedDate);/* } else {
-       console.error('Timestamp is undefined or null.');
-     } */
-   }
-
-
-  const getFileContent=(fileContent)=>{
-
-    setFileContent(fileContent);
-  
-  }
-
-
-  const getFileName=(fileName)=>{
-    console.log("the file name is :", fileName);
-    setFileName(fileName);
-  }
-  const getUpdatedCommit=(commit)=>{
-    setCommit(commit);
-  }
-
-  
-
-  async function requestAccount(){
-    //check the existence of metamask
-    if(window.ethereum){
-      console.log("MetaMask detected !");
-    } else {
-      alert("MestaMask isn't detected !! , please install mehtaMask Extention First");
-
-    }
-
-    try{
-      const accounts= await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-      console.log("the Accs:", accounts);
-      setWalletAddress(accounts[0]);
-      alert(`this account : ${accounts[0]}  is connected`);
-
-    } catch(err){
-      console.error(err);
-    }
-  }
-
-  async function connectWallet(){
-    if(typeof window.ethereum !== 'undefined'){
-      await requestAccount();
-      try{
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      const contractAddress= "0x1A5502fb65c29fAA0bb427214007e9F2bEC722b6" ;
-      const ABI= [
-        {
-          "inputs": [],
-          "stateMutability": "nonpayable",
-          "type": "constructor"
-        },
-        {
-          "inputs": [
-            {
-              "internalType": "string",
-              "name": "_url",
-              "type": "string"
-            },
-            {
-              "internalType": "string",
-              "name": "_content",
-              "type": "string"
-            },
-            {
-              "internalType": "string",
-              "name": "_commit",
-              "type": "string"
-            }
-          ],
-          "name": "updateFileHash",
-          "outputs": [],
-          "stateMutability": "nonpayable",
-          "type": "function"
-        },
-        {
-          "inputs": [
-            {
-              "internalType": "string",
-              "name": "_url",
-              "type": "string"
-            },
-            {
-              "internalType": "string",
-              "name": "_newContent",
-              "type": "string"
-            }
-          ],
-          "name": "checkDataIntegrity",
-          "outputs": [
-            {
-              "internalType": "string",
-              "name": "",
-              "type": "string"
-            },
-            {
-              "components": [
-                {
-                  "internalType": "bytes32",
-                  "name": "Hash",
-                  "type": "bytes32"
-                },
-                {
-                  "internalType": "string",
-                  "name": "previous_commit",
-                  "type": "string"
-                },
-                {
-                  "internalType": "string",
-                  "name": "current_commit",
-                  "type": "string"
-                },
-                {
-                  "internalType": "uint256",
-                  "name": "timestamp",
-                  "type": "uint256"
-                }
-              ],
-              "internalType": "struct VerifyDataIntegrity.Details",
-              "name": "",
-              "type": "tuple"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [
-            {
-              "internalType": "string",
-              "name": "",
-              "type": "string"
-            }
-          ],
-          "name": "FileHash",
-          "outputs": [
-            {
-              "internalType": "bytes32",
-              "name": "Hash",
-              "type": "bytes32"
-            },
-            {
-              "internalType": "string",
-              "name": "previous_commit",
-              "type": "string"
-            },
-            {
-              "internalType": "string",
-              "name": "current_commit",
-              "type": "string"
-            },
-            {
-              "internalType": "uint256",
-              "name": "timestamp",
-              "type": "uint256"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "name",
-          "outputs": [
-            {
-              "internalType": "string",
-              "name": "",
-              "type": "string"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        }
-      ];
-
-
-
-  // const ABI= 
-      const contract= new ethers.Contract(contractAddress,ABI,signer);
-      return contract ;
-     
-
-    } catch(err){
-      console.error(err);
-    }
-    }
-    
-  }
-
-  async function updateFileHash(){
-    try{
-      const contract = await connectWallet();
-    if (contract) {
-      const name = await contract.name();
-      console.log("Contract name is:", name);
-
-      const updateFH = await contract.updateFileHash(fileName,fileContent, commit);
-        await updateFH.wait(); // Wait for the transaction to be mined
-        alert(" the Data updated successfully ");
-        
-
-    }} catch(err){
-      console.error("the connection to contract error:",err);
-      alert("your address doesen't have access to update the Data !!");
-    }
-  }
-
-  async function verifyIntegrity(){
-    try{
-      const contract = await connectWallet();
-    if (contract) {
-      
-      const verifyIntegrity = await contract.checkDataIntegrity(fileName, fileContent);
-      console.log("the content to verify integrity is :",fileContent, "and url is :", fileName );
-      //await verifyIntegrity.wait()
-      setResultMsg(verifyIntegrity[0]);
-      setPreviousCommit(verifyIntegrity[1].previous_commit) ;  
-      setCurrentCommit(verifyIntegrity[1].current_commit);
-      let timeStamp = verifyIntegrity[1].timestamp;
-      timestampToDate(timeStamp);
-     setContent(2);
-      console.log("Data Integrity Result:", verifyIntegrity, "  the MSG : ", resultMsg, "the commits :", previousCommit ,"==>", currentCommit, "   timestamp is   :  ",time);
-
-    }} catch(err){
-      console.error("the connection to contract error:",err);
-    }
-  }
-
-  let infos = {
-    previous_commit: previousCommit ,
-   current_commit : currentCommit ,
-   modificationTime : time }
-  console.log("informations are :", infos);
-
-  const handleContent=()=>{
-    setContent(1);
-  }
-
-    
-    return (
-    <div className="SERVICE">
-      {
-      content===1  &&
-      <header className="Service-header">
-        
-          <div className='Wallet'>
-          <button className='connect_Button' onClick={requestAccount}>Connect</button>
-          <h3 className='t1'>{walletAddress}</h3>
-          </div>
-        <div className='firstContainer'>
-          
-          <FileUpload getContent= {getFileContent} getName= {getFileName} getCommit={getUpdatedCommit} />
-          <button className='Button' onClick={updateFileHash}>UPDATE </button>
-          <button className='Button' onClick={verifyIntegrity}> VERIFY </button>
-          
-        </div>
-      </header>
-      } 
-      {content===2  &&
-      <div className='Container'>
-      <aside>
-        <div>
-              <div className='mainContainer'>
-                <div><button onClick={handleContent()}> Back</button></div>
-                  <div className='Result'>
-                    <h3>State</h3>
-                    <p>
-                      {resultMsg}
-                    </p>
-                  </div>
-                  <div className='Commits'>
-                    
-                    <div className='Pc'>
-                      
-                      <h3> Previous Commit </h3>
-                      <p>
-                        {infos.previous_commit}
-                      </p>
-                      
-                    </div>
-
-                    <div className='Cc'>
-                    <h3>Current Commit</h3>
-                      <p>
-                        {infos.current_commit}
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className='LTM'>
-                    <h3>Time of last modification </h3>
-                    <p>
-                      {infos.modificationTime}
-                    </p>
-                    
-                  </div>
-            </div>
-        </div>
-        
-      </aside>
-      
-
-      </div>
+  const [commit, setCommit] = useState('');
+  const [resultMsg, setResultMsg] = useState('');
+  const [previousCommit, setPreviousCommit] = useState('');
+  const [currentCommit, setCurrentCommit] = useState('');
+  const [modificationTime, setModificationTime] = useState('');
+  const [currentView, setCurrentView] = useState(VIEWS.DEFAULT);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [contract, setContract] = useState(null);
+  console.log("address:", CONTRACT_ADDRESS);
+  // Initialize provider and contract
+  useEffect(() => {
+    const initWeb3 = async () => {
+      if (window.ethereum) {
+        const provider = new ethers.BrowserProvider(window.ethereum); // UPDATED
+        const signer = await provider.getSigner(); // UPDATED
+        setContract(new ethers.Contract(
+          CONTRACT_ADDRESS,
+          contractArtifact.abi,
+          signer
+        ));
       }
-      <footer>
-        
-      </footer>
+    };
+    initWeb3();
+  }, []);
+
+  // Handle account changes
+  useEffect(() => {
+    if (window.ethereum) {
+      window.ethereum.on('accountsChanged', (accounts) => {
+        setWalletAddress(accounts[0] || '');
+      });
+    }
+  }, []);
+
+  // Format timestamp
+  const formatTimestamp = (timestamp) => {
+    if (!timestamp) return '';
+    // Convert BigInt to number
+    const timestampNumber = Number(timestamp);
+    return format(new Date(timestampNumber * 1000), 'yyyy-MM-dd HH:mm:ss');
+  };
+
+  // Request account access
+  async function requestAccount() {
+    if (!window.ethereum) {
+      alert('Please install MetaMask!');
+      return;
+    }
+
+    try {
+      const accounts = await window.ethereum.request({ 
+        method: "eth_requestAccounts" 
+      });
+      setWalletAddress(accounts[0]);
+    } catch (err) {
+      console.error('Connection failed:', err);
+    }
+  }
+
+  // Update file hash
+  async function updateFileHash() {
+    if (!fileName || !fileContent || !commit) {
+      alert('Missing required fields!');
+      return;
+    }
+
+    setIsUpdating(true);
+    try {
+      const tx = await contract.updateFileHash(fileName, fileContent, commit);
+      await tx.wait();
+      alert('Update successful!');
+    } catch (err) {
+      console.error('Update failed:', err);
+      alert(`Error: ${err.message}`);
+    } finally {
+      setIsUpdating(false);
+    }
+  }
+
+  // Verify data integrity
+  async function verifyIntegrity() {
+    setIsVerifying(true);
+    try {
+      const result = await contract.checkDataIntegrity(fileName, fileContent);
+      setResultMsg(result[0]);
+      setPreviousCommit(result[1].previous_commit);
+      setCurrentCommit(result[1].current_commit);
+      setModificationTime(formatTimestamp(result[1].timestamp));
+      setCurrentView(VIEWS.RESULT);
+    } catch (err) {
+      console.error('Verification failed:', err);
+    } finally {
+      setIsVerifying(false);
+    }
+  }
+
+  return (
+    <div className="SERVICE">
+       {currentView === VIEWS.LANDING && (
+        <header className="Service-header">
+          <div className='Wallet'>
+            <button 
+              className='connect_Button' 
+              onClick={requestAccount}
+              disabled={!!walletAddress}
+            >
+              {walletAddress ? 'Connected' : 'Connect Wallet'}
+            </button>
+            {walletAddress && (
+              <p className='wallet-address'>
+                {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+              </p>
+            )}
+          </div>
+          
+          <div className='landingContainer' >
+            <button 
+              className='Button' 
+              onClick={() => setCurrentView(VIEWS.DEFAULT)}
+              
+            >
+              UPDATE
+            </button>
+            <button
+              className='Button'
+              onClick={() => setCurrentView(VIEWS.DEFAULT)}
+             
+            >
+              Verify
+            </button>
+          </div>
+        </header>
+      )}
+
+      
+      {currentView === VIEWS.DEFAULT && (
+        <header className="Service-header">
+          <div className='Wallet'>
+            <button 
+              className='connect_Button' 
+              onClick={requestAccount}
+              disabled={!!walletAddress}
+            >
+              {walletAddress ? 'Connected' : 'Connect Wallet'}
+            </button>
+            {walletAddress && (
+              <p className='wallet-address'>
+                {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+              </p>
+            )}
+          </div>
+          
+          <div className='firstContainer'>
+            <FileUpload 
+              getContent={setFileContent} 
+              getName={setFileName} 
+              getCommit={setCommit} 
+            />
+            <button 
+              className='Button' 
+              onClick={updateFileHash}
+              disabled={isUpdating}
+            >
+              {isUpdating ? 'Updating...' : 'UPDATE'}
+            </button>
+            <button
+              className='Button'
+              onClick={verifyIntegrity}
+              disabled={isVerifying}
+            >
+              {isVerifying ? 'Verifying...' : 'VERIFY'}
+            </button>
+          </div>
+        </header>
+      )}
+
+      {currentView === VIEWS.RESULT && (
+        <div className='Container'>
+          <button onClick={() => setCurrentView(VIEWS.DEFAULT)}>Back</button>
+          <div className='Result'>
+            <h3>Verification Result</h3>
+            <p>{resultMsg}</p>
+          </div>
+          <div className='Commits'>
+            <div className='Pc'>
+              <h3>Previous Commit</h3>
+              <p>{previousCommit || 'N/A'}</p>
+            </div>
+            <div className='Cc'>
+              <h3>Current Commit</h3>
+              <p>{currentCommit}</p>
+            </div>
+          </div>
+          <div className='LTM'>
+            <h3>Last Modified</h3>
+            <p>{modificationTime}</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

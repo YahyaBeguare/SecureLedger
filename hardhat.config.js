@@ -10,8 +10,11 @@ const GANACHE_ACCOUNT= process.env.GANACHE_PRIVATE_KEY ;
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: "0.8.19",
+  defaultNetwork: "hardhat",
+
   networks: {
-  
+    
+    hardhat: { },
     sepolia: {
       url: `${INFURA_RPC_URL}`,
       accounts: [SEPOLIA_PRIVATE_KEY],
@@ -30,6 +33,6 @@ module.exports = {
     }
   },
   paths: {
-    artifacts: './artifacts',
+    artifacts: './src/artifacts',
   }
 };

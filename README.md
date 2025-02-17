@@ -10,7 +10,7 @@ Ps: Or you could use the local hardhat network
 
 1. Start the hardhat node in a separate terminal
 
-```
+```sh
 npx hardhat node
 ```
 # Getting Started with React App
@@ -18,14 +18,14 @@ npx hardhat node
 
 1. Navigate to the root directory 
 
-```
+```sh
 cd data-integrity-project
 ```
 
 2. Start the FrontEnd server 
 
-```
-npm start`
+```sh
+npm start
 
 ```
 
