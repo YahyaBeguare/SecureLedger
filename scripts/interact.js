@@ -3,6 +3,7 @@ const hre = require("hardhat");
 async function main(){
 const proxyAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"; 
 const proxyContract = await hre.ethers.getContractAt("SecureLedger", proxyAddress);
+await proxyContract.updateFileHash("string memory _url", "string memory _content", "string memory _commit");
 console.log("Contract name:", await proxyContract.name());
 
 }

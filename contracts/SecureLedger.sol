@@ -3,10 +3,9 @@ pragma solidity ^0.8.21 ;
 
 import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
-import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol"; 
 
 
-contract SecureLedger is Initializable, OwnableUpgradeable, UUPSUpgradeable {
+contract SecureLedger is Initializable, OwnableUpgradeable {
 
     address private admin ;
 
@@ -18,29 +17,15 @@ contract SecureLedger is Initializable, OwnableUpgradeable, UUPSUpgradeable {
         
     }
 
-    string SCname= "Data Integrity";
     Details private details ;
-    
+        
 
      function initialize(address initialOwner) initializer public {
         __Ownable_init(initialOwner);
-        __UUPSUpgradeable_init();
         admin = initialOwner ;  
 
     }
 
-    function _authorizeUpgrade(address newImplementation)
-        internal
-        onlyOwner
-        override
-    {}
-
-
-
-
-    function name() public view returns( string memory){
-        return SCname ; 
-    }
 
      mapping (string => Details) public  FileHash ;
 
@@ -109,9 +94,7 @@ contract SecureLedger is Initializable, OwnableUpgradeable, UUPSUpgradeable {
             }
     }
 
-    function upgrade( address newImplementation) public onlyOwner {
-        upgradeToAndCall(newImplementation, "");
-    }
+    
 
     
 }
