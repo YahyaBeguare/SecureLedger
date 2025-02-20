@@ -25,6 +25,7 @@ yarn-error.log*
 node_modules
 .env
 
+docs.md
 # Hardhat files
 /cache
 /artifacts

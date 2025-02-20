@@ -11,7 +11,7 @@ const GANACHE_ACCOUNT = process.env.GANACHE_PRIVATE_KEY;
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: "0.8.24",
-  defaultNetwork: "hardhat",
+  defaultNetwork: "sepolia",
 
   networks: {
     hardhat: {},
@@ -30,6 +30,9 @@ module.exports = {
     apiKey: {
       sepolia: ETHERSCAN_API_KEY,
     },
+  },
+  sourcify: {
+    enabled: true
   },
   paths: {
     artifacts: "./src/artifacts",

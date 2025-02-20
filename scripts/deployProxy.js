@@ -16,7 +16,9 @@ async function deploy() {
   // Deploy the implementation contract (SecureLedger)
   try{
    SecureLedger = await ethers.getContractFactory("SecureLedger");
-  SecureLedgerProxy=  await upgrades.deployProxy(SecureLedger, [deployer.address]);
+  SecureLedgerProxy=  await upgrades.deployProxy(SecureLedger, [deployer.address],{
+    initializer: "initialize",
+  });
   await SecureLedgerProxy.waitForDeployment();
 
   console.log("SecureLedger proxy deployed to:", SecureLedgerProxy.target);

@@ -79,7 +79,7 @@ function Service() {
   }
 
   // Update file hash
-  async function updateFileHash() {
+  async function updateData() {
     if (!fileName || !fileContent || !commit) {
       alert('Missing required fields!');
       return;
@@ -87,7 +87,7 @@ function Service() {
 
     setIsUpdating(true);
     try {
-      const tx = await contract.updateFileHash(fileName, fileContent, commit);
+      const tx = await contract.updateData(fileName, fileContent, commit);
       await tx.wait();
       alert('Update successful!');
     } catch (err) {
@@ -180,7 +180,7 @@ function Service() {
             />
             <button 
               className='Button' 
-              onClick={updateFileHash}
+              onClick={updateData}
               disabled={isUpdating}
             >
               {isUpdating ? 'Updating...' : 'UPDATE'}

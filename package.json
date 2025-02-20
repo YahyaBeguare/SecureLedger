@@ -24,11 +24,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deployContract": "npx hardhat run scripts/deploy.js",
+    "deployContract": "npx hardhat run scripts/deployProxy.js",
     "deployContract:hardhat": "npx hardhat run scripts/deployProxy.js --network hardhat",
     "deployContract:sepolia": "npx hardhat run scripts/deploy.js --network sepolia",
     "deployContract:ganache": "npx hardhat run scripts/deploy.js --network ganache",
-    "interact:hardhat": "npx hardhat run scripts/interact.js --network hardhat"
+    "interact": "npx hardhat run scripts/interact.js"
   },
   "eslintConfig": {
     "extends": [
