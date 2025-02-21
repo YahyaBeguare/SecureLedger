@@ -26,8 +26,8 @@
     "eject": "react-scripts eject",
     "deployContract": "npx hardhat run scripts/deployProxy.js",
     "deployContract:hardhat": "npx hardhat run scripts/deployProxy.js --network hardhat",
-    "deployContract:sepolia": "npx hardhat run scripts/deploy.js --network sepolia",
-    "deployContract:ganache": "npx hardhat run scripts/deploy.js --network ganache",
+    "deployContract:sepolia": "npx hardhat run scripts/deployProxy.js --network sepolia",
+    "deployContract:ganache": "npx hardhat run scripts/deployProxy.js --network ganache",
     "interact": "npx hardhat run scripts/interact.js"
   },
   "eslintConfig": {
