@@ -85,7 +85,7 @@ contract SecureLedger is Initializable, OwnableUpgradeable {
         string memory message ;  
        
          if (FileHash[_author][_name].Hash == bytes32(0) ) {
-             revert("This Auther didn't upload any Data with this name, please check the uploaded file name and author address and try again" );
+             revert("This Author didn't upload any Data with this name, please check the uploaded file name and author address and try again" );
            
         }
         
