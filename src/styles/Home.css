@@ -1,22 +1,50 @@
-.Home{
-   
-   padding-left: 20%;
-   padding-right: 20%;
-    
-    
-}
-
-.Img{
-    background-image: url('../Images/Home-image.jpg') ;
-    background-repeat:no-repeat ;
-    padding-top: 30%;
+.Home {
+    /* Keep or adjust the padding as desired */
+    padding-left: 20%;
+    padding-right: 20%;
+  
+    /* Use Flexbox to center content */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin: 0 auto; /* Centers the container itself if it has a set width */
+  }
+  
+  /* Background image container */
+  .Img {
+    background-image: url('../Images/Home-image.jpg');
+    background-repeat: no-repeat;
     background-size: cover;
-}
-button{
+    background-position: center; /* Ensures the image is centered */
+    padding-top: 30%; /* Adjust if needed, or use a fixed height instead */
+  }
+  
+  /* Button styling remains the same */
+  button {
     padding: 5px;
-    background-color:rgb(47, 200, 85);
+    background-color: rgb(47, 200, 85);
     margin-bottom: 10%;
     margin: 10px;
     border-radius: 10px;
-    font-size:18px;
-}
+    font-size: 18px;
+  }
+
+  
+  .span {
+    background-color: bisque;
+    color: black;
+    border-radius: 5px;
+    padding: 2px 4px;
+    margin: 15px ;
+  }
+
+  h1 {
+    padding: 30px;
+  }
+
+  .author {
+    margin-bottom: 50px;
+    margin-top: 80px;
+    color:antiquewhite
+  }

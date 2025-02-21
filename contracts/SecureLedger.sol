@@ -1,31 +1,35 @@
 //SPDX-License-Identifier: MIT 
+pragma solidity ^0.8.21 ;
 
-pragma solidity ^0.8.19 ;
-contract SecureLedger {
+import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 
-    address admin ;
+
+contract SecureLedger is Initializable, OwnableUpgradeable {
+
+    event DataUploaded(address indexed _AuthorAddress, string dataName) ;
+    event DataUpdated(address indexed _AuthorAddress, string dataName, string commit );
 
     struct Details{
         bytes32 Hash ;
-        string previous_commit ;
-        string current_commit;
-        uint  timestamp ;
+        string[] Commits ;
+        uint256[]  timestamp ;
         
     }
-
-    constructor(address _owner) {
-      admin = _owner ;  
-    } 
-
-    string SCname= "Data Integrity";
-    Details private details ;
-    
-
-    function name() public view returns( string memory){
-        return SCname ; 
+    struct DataUploadInfo{
+        string dataName ;
+        uint256 timestamp ;
     }
+    Details private details ;
+        
 
-     mapping (string => Details) public  FileHash ;
+     function initialize(address initialOwner) initializer public {
+        __Ownable_init(initialOwner);
+    }
+    // Store the documents names uploaded by the author
+    mapping(address => DataUploadInfo[]) internal authorDocs ;
+    // Store the details of uploaded and updated data with its author
+     mapping (address author => mapping(string dataName => Details dataDetails)) internal  FileHash ;
 
     function hash(string memory content)  internal pure returns(bytes32){
         bytes32 contentHash  = keccak256(bytes(content)) ;
@@ -33,66 +37,78 @@ contract SecureLedger {
            
     } 
 
-    function updateFileHash(string memory _url, string memory _content, string memory _commit) public {
+    function uploadData(string memory _name, string memory _content, string memory _commit) public {
+        address userAddress = msg.sender ;
+        if(FileHash[userAddress][_name].Hash != bytes32(0)){
+            revert("You already have a data uploaded with this name ") ;
+        }
 
-        require(msg.sender == admin, "your address doesen't have access to update the Data" );
+        bytes32 newHash= hash(_content);
+        uint256 _timestamp= block.timestamp ;
+
+        DataUploadInfo memory newDoc = DataUploadInfo({
+            dataName: _name,
+            timestamp: _timestamp
+        });
+
+        details.Hash= newHash ;
+        // Assign the  commit to the commits history
+        details.Commits.push(_commit);
+  
+        details.timestamp.push(_timestamp);
+        // Update the data details state on contract . 
+        FileHash[userAddress][_name] = details;
+        authorDocs[userAddress].push(newDoc);
+        emit DataUploaded(userAddress, _name);
+    }
+
+    function updateData(string memory _name, string memory _content, string memory _commit) public {
+        if(FileHash[msg.sender][_name].Hash == bytes32(0)){
+            revert("You don't have a registred data with this name !!");
+        }
         bytes32 newHash= hash(_content);
         uint256 _timestamp= block.timestamp ;
 
         details.Hash= newHash ;
-        // assigning the previous commit to the details
-        if(FileHash[_url].Hash == bytes32(0)){
-            details.previous_commit= "Before existence";
-        }else details.previous_commit= FileHash[_url].current_commit ;
-        // assigning the current commit to the details
-        details.current_commit= _commit ;
-        details.timestamp= _timestamp ;
+        // Push the  commit to the commits history
+        details.Commits.push(_commit);
+  
+        details.timestamp.push(_timestamp);
 
-        FileHash[_url] = details;
+        FileHash[msg.sender][_name] = details;
+        emit DataUpdated(msg.sender, _name, _commit);
     }
 
 
-    function checkDataIntegrity(string memory _url, string memory _newContent) public view  returns(string memory,Details memory) {
+    function checkDataIntegrity(address _author, string memory _name, string memory _newContent) public view  returns(string memory,Details memory) {
        
-        string memory message ;
-
-        Details memory emptyDetails = Details({
-                Hash:bytes32(0),
-                previous_commit:"",
-                current_commit:"",
-                timestamp:0
-                });
-        
-    
+        string memory message ;  
        
-
-         if (FileHash[_url].Hash == bytes32(0) ) {
-             message= "This URL is invalid,please check the uploaded file and try again" ;
-            return( message, emptyDetails) ;
+         if (FileHash[_author][_name].Hash == bytes32(0) ) {
+             revert("This Author didn't upload any Data with this name, please check the uploaded file name and author address and try again" );
+           
         }
         
-        bytes32 currentHash= FileHash[_url].Hash;
+        bytes32 currentHash= FileHash[_author][_name].Hash;
         bytes32 newHash= hash(_newContent);
         
         
         if( currentHash == newHash){
-            message= "this Data hasn't been modified from last update  " ;
-            if(msg.sender== admin){
-                return( message,FileHash[_url]);
-            }else{
-            return( message,emptyDetails) ;
-                }
+            message= "This Data matches the one stored by author, it hasn't been modified from last update  " ;
+           
         } else {
-            message= "This Data has been modified, it's different from last version stored !!  ";
-            if(msg.sender== admin){
-                return( message,FileHash[_url]);
-            }else{
-                return( message,emptyDetails) ;
-                }
+            message= "This Data doesn't match, it has been modified, it's different from last version stored !!  ";           
             }
+        
+        return( message,FileHash[_author][_name]);
     }
 
-
+    function getHistory() public view returns(DataUploadInfo[] memory){
+        if(authorDocs[msg.sender].length == 0){
+            revert("You didn't upload any data yet !! ");
+        }
+         return authorDocs[msg.sender];
+    }
 
     
 }
