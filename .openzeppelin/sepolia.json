@@ -10,6 +10,11 @@
       "address": "0x054E16003820c20f1d423D78Fe93E786f9d5041C",
       "txHash": "0x0813e298f4a9032f2d7aca4595e11d31e51658b1d00f066bdded810088c899d9",
       "kind": "transparent"
+    },
+    {
+      "address": "0xA270159d105A41e4b8694d4aeC0925E321cfE07c",
+      "txHash": "0xc0d800dfb97142d046205e1d86191ef62674f44b43745ed330de7625c92c64a7",
+      "kind": "transparent"
     }
   ],
   "impls": {
@@ -199,6 +204,195 @@
             "type": "t_mapping(t_address,t_mapping(t_string_memory_ptr,t_struct(Details)527_storage))",
             "contract": "SecureLedger",
             "src": "contracts\\SecureLedger.sol:32"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_struct(InitializableStorage)73_storage": {
+            "label": "struct Initializable.InitializableStorage",
+            "members": [
+              {
+                "label": "_initialized",
+                "type": "t_uint64",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "_initializing",
+                "type": "t_bool",
+                "offset": 8,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "32"
+          },
+          "t_struct(OwnableStorage)13_storage": {
+            "label": "struct OwnableUpgradeable.OwnableStorage",
+            "members": [
+              {
+                "label": "_owner",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "32"
+          },
+          "t_uint64": {
+            "label": "uint64",
+            "numberOfBytes": "8"
+          },
+          "t_array(t_string_storage)dyn_storage": {
+            "label": "string[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_struct(DataUploadInfo)532_storage)dyn_storage": {
+            "label": "struct SecureLedger.DataUploadInfo[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)dyn_storage": {
+            "label": "uint256[]",
+            "numberOfBytes": "32"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_array(t_struct(DataUploadInfo)532_storage)dyn_storage)": {
+            "label": "mapping(address => struct SecureLedger.DataUploadInfo[])",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_mapping(t_string_memory_ptr,t_struct(Details)527_storage))": {
+            "label": "mapping(address => mapping(string => struct SecureLedger.Details))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_string_memory_ptr,t_struct(Details)527_storage)": {
+            "label": "mapping(string => struct SecureLedger.Details)",
+            "numberOfBytes": "32"
+          },
+          "t_string_memory_ptr": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_string_storage": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_struct(DataUploadInfo)532_storage": {
+            "label": "struct SecureLedger.DataUploadInfo",
+            "members": [
+              {
+                "label": "dataName",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "timestamp",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(Details)527_storage": {
+            "label": "struct SecureLedger.Details",
+            "members": [
+              {
+                "label": "Hash",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "Commits",
+                "type": "t_array(t_string_storage)dyn_storage",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "timestamp",
+                "type": "t_array(t_uint256)dyn_storage",
+                "offset": 0,
+                "slot": "2"
+              }
+            ],
+            "numberOfBytes": "96"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          }
+        },
+        "namespaces": {
+          "erc7201:openzeppelin.storage.Ownable": [
+            {
+              "contract": "OwnableUpgradeable",
+              "label": "_owner",
+              "type": "t_address",
+              "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:24",
+              "offset": 0,
+              "slot": "0"
+            }
+          ],
+          "erc7201:openzeppelin.storage.Initializable": [
+            {
+              "contract": "Initializable",
+              "label": "_initialized",
+              "type": "t_uint64",
+              "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:69",
+              "offset": 0,
+              "slot": "0"
+            },
+            {
+              "contract": "Initializable",
+              "label": "_initializing",
+              "type": "t_bool",
+              "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:73",
+              "offset": 8,
+              "slot": "0"
+            }
+          ]
+        }
+      }
+    },
+    "712231edccf2d138cbff176b32083874c2b895a9e5da248232e28e125a9783eb": {
+      "address": "0x98e8255426A6c666113efb8AbA48c2BcF88045ad",
+      "txHash": "0x9ba9c8397b28ed58c658bd20f89dafccb59edd68783e72bbb95a5dd09c691d52",
+      "layout": {
+        "solcVersion": "0.8.24",
+        "storage": [
+          {
+            "label": "details",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_struct(Details)527_storage",
+            "contract": "SecureLedger",
+            "src": "contracts\\SecureLedger.sol:23"
+          },
+          {
+            "label": "authorDocs",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_mapping(t_address,t_array(t_struct(DataUploadInfo)532_storage)dyn_storage)",
+            "contract": "SecureLedger",
+            "src": "contracts\\SecureLedger.sol:36"
+          },
+          {
+            "label": "FileHash",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_mapping(t_address,t_mapping(t_string_memory_ptr,t_struct(Details)527_storage))",
+            "contract": "SecureLedger",
+            "src": "contracts\\SecureLedger.sol:38"
           }
         ],
         "types": {

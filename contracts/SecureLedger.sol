@@ -21,9 +21,15 @@ contract SecureLedger is Initializable, OwnableUpgradeable {
         uint256 timestamp ;
     }
     Details private details ;
+
+    /// @custom:oz-upgrades-unsafe-allow constructor
+    constructor() {
+        _disableInitializers();
+    }
+
         
 
-     function initialize(address initialOwner) initializer public {
+    function initialize(address initialOwner) initializer public {
         __Ownable_init(initialOwner);
     }
     // Store the documents names uploaded by the author
