@@ -1,7 +1,7 @@
 # Data Integrity Project
 
 This project is a decentralized application (dApp) that leverages an Ethereum smart contract (deployed on, e.g., Sepolia) to securely upload, update, and verify data integrity. The frontend is built using React, and interactions with the smart contract are performed via ethers.js.
-
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Open-green?style=for-the-badge)](https://secureledger.onrender.com/)
 ## Table of Contents
 
 - [Getting Started](#getting-started)

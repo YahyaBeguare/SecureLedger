@@ -166,19 +166,23 @@ export default function Service() {
       const tx = await contract.uploadData(fileName, fileContent, commit);
       const receipt = await tx.wait();
       let foundEvent = false;
-      if (receipt.events) {
-        receipt.events.forEach((event) => {
+      if (receipt.logs) {
+        // receipt.log.forEach((event) => {
+        for(const log of receipt.logs) {
           try {
-            const parsed = contract.interface.parseLog(event);
+            const parsed = contract.interface.parseLog(log);
             if (parsed.name === "DataUploaded") {
-              const { _AuthorAddress, dataName } = parsed.args;
+              const  _AuthorAddress  = parsed.args._AuthorAddress;
+              const dataName  = parsed.args.dataName.toString();
+              console.log(`File "${dataName}" has been uploaded successfully by ${_AuthorAddress}.`);
               setSuccessMessage(`File "${dataName}" has been uploaded successfully by ${_AuthorAddress}.`);
               foundEvent = true;
+              break;
             }
           } catch (e) {
             // ignore non-matching events
           }
-        });
+        };
       }
       if (!foundEvent) {
         setSuccessMessage("Upload transaction completed but no event was found.");
@@ -204,24 +208,45 @@ export default function Service() {
     try {
       const tx = await contract.updateData(fileName, fileContent, commit);
       const receipt = await tx.wait();
-      let foundEvent = false;
-      if (receipt.events) {
-        receipt.events.forEach((event) => {
-          try {
-            const parsed = contract.interface.parseLog(event);
-            if (parsed.name === "DataUpdated") {
-              const { _AuthorAddress, dataName, commit: eventCommit } = parsed.args;
-              setSuccessMessage(`File "${dataName}" updated successfully by ${_AuthorAddress} with commit "${eventCommit}".`);
-              foundEvent = true;
-            }
-          } catch (e) {
-            // ignore non-matching events
+    console.log("Transaction receipt:", receipt);
+
+    let foundEvent = false;
+
+    if (receipt.logs) {
+      for (const log of receipt.logs) {
+        try {
+          const parsed = contract.interface.parseLog(log);
+          
+          if (parsed?.name === "DataUpdated") {
+            // Destructure with proper type handling
+            const _AuthorAddress = parsed.args._AuthorAddress;
+            const dataName = parsed.args.dataName.toString(); 
+            const eventCommit = parsed.args.commit.toString();
+            
+            console.log(
+              `File "${dataName}" updated successfully by ${_AuthorAddress} with commit "${eventCommit}"`
+            );
+            
+            setSuccessMessage(
+              `File "${dataName}" updated successfully by ${_AuthorAddress.slice(0, 6)}...${_AuthorAddress.slice(-4)} with commit "${eventCommit}".`
+            );
+            
+            foundEvent = true;
+            break; // Exit loop after finding our event
           }
-        });
+        } catch (e) {
+          console.debug("Skipping non-matching log:", e.message);
+        }
       }
-      if (!foundEvent) {
-        setSuccessMessage("Update transaction completed but no event was found.");
-      }
+    }
+
+    if (!foundEvent) {
+      console.warn("Transaction completed but no DataUpdated event found");
+      setSuccessMessage(
+        "Update transaction completed but couldn't verify details (missing event). " +
+        `Transaction hash: ${receipt.hash}`
+      );
+    }
     } catch (error) {
       console.error("Update error:", error);
       setErrorMessage(extractErrorReason(error));
@@ -381,7 +406,7 @@ export default function Service() {
           <ul>
             {historyData.map((doc, index) => (
               <li key={index}>
-                <strong>{doc.dataName}</strong> – {formatTimestamp(doc.timestamp)}
+                <strong>{doc.dataName}</strong> – at - {formatTimestamp(doc.timestamp)}
               </li>
             ))}
           </ul>
